@@ -20,41 +20,33 @@ public class TerrapizzaTest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(TerrapizzaPage.URL);
-        driver.findElement(By.xpath(TerrapizzaPage.BUTTON_COOKIES_CLOSE)).click();
+        driver.findElement(By.xpath(TerrapizzaPage.COOKIES_BUTTON_CLOSE)).click();
     }
 
     @Test
     public void testAddingPizzaToCart() {
-        new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.presenceOfElementLocated(By.linkText(TerrapizzaPage.NAME_PRODUCT))).click();
-        new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath(TerrapizzaPage.SORT_PRODUCT_XPATH)));
-        String cartAttribute = driver.findElement(By.xpath(TerrapizzaPage.SORT_PRODUCT_XPATH))
-                .getAttribute(TerrapizzaPage.CART_ATTRIBUTE);
-        driver.findElement(By.xpath("//button[@data-id='" + cartAttribute + "']")).click();
+        Util.openCategoryMenu(driver, TerrapizzaPage.CATEGORY_MENU_TEXT_PRODUCT);
+        Util.addProductToCart(driver, TerrapizzaPage.KIND_OF_PRODUCT_DATA_ID);
 
-        new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath(TerrapizzaPage.OPEN_ORDER_PAGE_BTN)));
+        Util.waitForPresenceByXPath(driver, 10000, TerrapizzaPage.OPEN_ORDER_PAGE_BTN);
         driver.findElement(By.xpath(TerrapizzaPage.OPEN_ORDER_PAGE_BTN)).click();
 
-        new WebDriverWait(driver, Duration.ofSeconds(20))
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath(TerrapizzaPage.NAME_PRODUCT_IN_CART)));
-        String nameFirstProductInCart = driver.findElement(By.xpath(TerrapizzaPage.NAME_PRODUCT_IN_CART)).getText();
-        Assertions.assertEquals(TerrapizzaPage.SORT_PRODUCT, nameFirstProductInCart);
+        Util.waitForPresenceByXPath(driver, 20000, TerrapizzaPage.SSS); //passed                // ИЗМЕНИТЬ
+        Assertions.assertTrue(driver.findElement(By
+            .xpath("//div[@class='basket__products-item-name'][contains(text(), 'Пицца Маргарита')]"))
+            .getText().equals(TerrapizzaPage.SORT_PRODUCT));
     }
 
     @Test
     public void testAddingSomeProductsToCart() {
-        new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.presenceOfElementLocated(By.linkText(TerrapizzaPage.NAME_PRODUCT))).click();
-        new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath(TerrapizzaPage.SORT_PRODUCT_XPATH)));
-        String cartAttributeProduct = driver.findElement(By.xpath(TerrapizzaPage.SORT_PRODUCT_XPATH))
-                .getAttribute(TerrapizzaPage.CART_ATTRIBUTE);
-        driver.findElement(By.xpath("//button[@data-id='" + cartAttributeProduct + "']")).click();
+        Util.openCategoryMenu(driver, TerrapizzaPage.CATEGORY_MENU_TEXT_PRODUCT);
+        Util.addProductToCart(driver, TerrapizzaPage.KIND_OF_PRODUCT_DATA_ID);
+        Util.waitForPresenceByXPath(driver, 10000, TerrapizzaPage.KIND_OF_PRODUCT_XPATH);
+        driver.findElement(By.xpath("//button[@data-id='" + TerrapizzaPage.KIND_OF_PRODUCT_DATA_ID + "']")).click();
+
 
         new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.presenceOfElementLocated(By.linkText(TerrapizzaPage.BEVERAGE_XPATH))).click();
+                .until(ExpectedConditions.presenceOfElementLocated(By.linkText(TerrapizzaPage.CATEGORY_MENU_TEXT_BAR))).click();
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.presenceOfElementLocated(By.xpath(TerrapizzaPage.SORT_BEVERAGE_XPATH)));
 
@@ -63,8 +55,8 @@ public class TerrapizzaTest {
         driver.findElement(By.xpath("//button[@data-id='" + cartAttributeBeverage + "']")).click();
 
         new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(ExpectedConditions.presenceOfElementLocated(By.xpath(TerrapizzaPage.OPEN_ORDER_PAGE_SOME_PRODUCT_BTN)));
-        driver.findElement(By.xpath(TerrapizzaPage.OPEN_ORDER_PAGE_SOME_PRODUCT_BTN)).click();
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath(TerrapizzaPage.OPEN_ORDER_PAGE_SOME_PRODUCTS_BTN)));
+        driver.findElement(By.xpath(TerrapizzaPage.OPEN_ORDER_PAGE_SOME_PRODUCTS_BTN)).click();
 
         new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='basket__products-item-name']")));
