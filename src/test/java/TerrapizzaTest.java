@@ -8,9 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 
 public class TerrapizzaTest {
@@ -68,7 +66,10 @@ public class TerrapizzaTest {
                 .until(ExpectedConditions.presenceOfElementLocated(By.xpath(TerrapizzaPage.OPEN_ORDER_PAGE_SOME_PRODUCT_BTN)));
         driver.findElement(By.xpath(TerrapizzaPage.OPEN_ORDER_PAGE_SOME_PRODUCT_BTN)).click();
 
+        new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@class='basket__products-item-name']")));
         List<WebElement> list =  driver.findElements(By.xpath("//div[@class='basket__products-item-name']"));
+
         Assertions.assertEquals(TerrapizzaPage.SORT_PRODUCT, list.get(0).getText());
         Assertions.assertEquals(TerrapizzaPage.SORT_BEVERAGE, list.get(1).getText());
     }
@@ -77,5 +78,4 @@ public class TerrapizzaTest {
     public void tearDown() {
         driver.quit();
     }
-
 }
