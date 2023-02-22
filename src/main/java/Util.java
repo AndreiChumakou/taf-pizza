@@ -25,7 +25,4 @@ public class Util {
         waitForPresenceByXPath(driver, 10000, kindProductXPath);
         driver.findElement(By.xpath("//button[@data-id='" + id + "']")).click();
     }
-
-
-
 }
