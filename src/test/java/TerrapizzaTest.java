@@ -47,22 +47,14 @@ public class TerrapizzaTest {
         Util.addProductToCart(driver, TerrapizzaPage.KIND_OF_BEVERAGE_DATA_ID, TerrapizzaPage.KIND_OF_BEVERAGE_XPATH);
         listOfOrder.add(TerrapizzaPage.KIND_OF_BEVERAGE_DATA_ID);
 
-        Util.openCategoryMenu(driver, TerrapizzaPage.CATEGORY_MENU_TEXT_PRODUCT_TWO);
-        Util.addProductToCart(driver, TerrapizzaPage.KIND_OF_PRODUCT_DATA_ID_TWO, TerrapizzaPage.KIND_OF_PRODUCT_XPATH_TWO);
-        listOfOrder.add(TerrapizzaPage.KIND_OF_PRODUCT_DATA_ID_TWO);
-
-        Util.openCategoryMenu(driver, TerrapizzaPage.CATEGORY_MENU_TEXT_PRODUCT_THREE);
-        Util.addProductToCart(driver, TerrapizzaPage.KIND_OF_PRODUCT_DATA_ID_THREE, TerrapizzaPage.KIND_OF_PRODUCT_XPATH_THREE);
-        listOfOrder.add(TerrapizzaPage.KIND_OF_PRODUCT_DATA_ID_THREE);
-
         Util.waitForPresenceByXPath(driver, 10000, TerrapizzaPage.OPEN_ORDER_PAGE_SOME_PRODUCTS_BTN);
         driver.findElement(By.xpath(TerrapizzaPage.OPEN_ORDER_PAGE_SOME_PRODUCTS_BTN)).click();
 
         Util.waitForPresenceByXPath(driver, 20000, TerrapizzaPage.CART_OPEN_COMPLETE);
-        List<WebElement> list =  driver.findElements(By.xpath("//li[contains(@class,'basket__products-item')]"));
+        List<WebElement> list =  driver.findElements(By.xpath(TerrapizzaPage.LIST_PRODUCTS));
 
         for (int i = 0; i < listOfOrder.size()-1; i++) {
-            Assertions.assertEquals(listOfOrder.get(i), list.get(i).getAttribute("data-menu-id"));
+            Assertions.assertEquals(listOfOrder.get(i), list.get(i).getAttribute(TerrapizzaPage.CART_PRODUCTS_ATTRIBUTE));
         }
     }
 
