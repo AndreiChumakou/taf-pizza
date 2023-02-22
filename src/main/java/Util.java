@@ -21,8 +21,8 @@ public class Util {
         driver.findElement(By.linkText(CATEGORY_MENU_TEXT_PRODUCT)).click();
     }
 
-    public static void addProductToCart(WebDriver driver, String id) {
-        waitForPresenceByXPath(driver, 10000, TerrapizzaPage.KIND_OF_PRODUCT_XPATH);
+    public static void addProductToCart(WebDriver driver, String id, String kindProductXPath) {
+        waitForPresenceByXPath(driver, 10000, kindProductXPath);
         driver.findElement(By.xpath("//button[@data-id='" + id + "']")).click();
     }
 
